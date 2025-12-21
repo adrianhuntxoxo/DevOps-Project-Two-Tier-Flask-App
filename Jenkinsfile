@@ -1,17 +1,25 @@
 pipeline {
     agent any
+
+    options {
+        // Prevent Jenkins from doing an implicit checkout on its own
+        skipDefaultCheckout(true)
+    }
+
     stages {
         stage('Clone Code') {
             steps {
-                // Replace with your GitHub repository URL
-                git branch: 'main', url: '[https://github.com/adrianhuntxoxo/DevOps-Project-Two-Tier-Flask-App.git](https://github.com/adrianhuntxoxo/DevOps-Project-Two-Tier-Flask-App.git)'
+                git branch: 'main',
+                    url: 'https://github.com/adrianhuntxoxo/DevOps-Project-Two-Tier-Flask-App.git'
             }
         }
+
         stage('Build Docker Image') {
             steps {
                 sh 'docker build -t flask-app:latest .'
             }
         }
+
         stage('Deploy with Docker Compose') {
             steps {
                 // Stop existing containers if they are running
@@ -22,3 +30,4 @@ pipeline {
         }
     }
 }
+
